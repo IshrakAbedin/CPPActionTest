@@ -1,17 +1,16 @@
 -- premake5.lua
-workspace "CircularArray"
+workspace "ActionTest"
    configurations { "Debug", "Release" }
    
-   project "CircularArray"
+   project "BasicApp"
    kind "ConsoleApp"
    language "C++"
-   cppdialect "C++17"
+   cppdialect "C++20"
    architecture "x64"
    targetdir "bin/%{cfg.buildcfg}"
 
    includedirs {
-        "./test",
-        "./CircularArray"
+        "./src/includes"
     }
 
    files { "**.h", "**.hpp", "**.cpp", "**.cc", "**.cx", "**.c" }

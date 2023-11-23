@@ -12,7 +12,7 @@ jobs:
     - name: Grant premake5 permission
       run: chmod 777 ./vendor/bin/premake5
     - name: Generate Project for gmake2
-      run: ./vendor/bin/premake5 gmake2
+      run: ./vendor/bin/premake5 --cc=clang gmake2
     - name: Build - Release
       run: make config=release
     - name: Run - Release

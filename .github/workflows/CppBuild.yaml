@@ -1,0 +1,85 @@
+name: Linux Build with Premake 5
+
+on: [push]
+
+env:
+  SOLUTION_FILE_PATH: ./ActionTest.sln
+  BUILD_CONFIGURATION_RELEASE: Release
+  BUILD_CONFIGURATION_DEBUG: Debug
+
+jobs:
+  linux-clang:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Grant premake5 permission
+      run: chmod 777 ./vendor/bin/premake5
+    - name: Generate Project for gmake2
+      run: ./vendor/bin/premake5 --cc=clang gmake2
+
+    - name: Build - Debug
+      run: make config=debug
+    - name: Run - Debug
+      run: ./bin/Debug/BasicApp
+
+    - name: Build - Release
+      run: make config=release
+    - name: Run - Release
+      run: ./bin/Release/BasicApp
+
+  linux-gcc:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up GCC Latest
+      uses: egor-tensin/setup-gcc@v1
+      with:
+        version: latest
+        platform: x64
+
+    - name: Grant premake5 permission
+      run: chmod 777 ./vendor/bin/premake5
+    - name: Generate Project for gmake2
+      run: ./vendor/bin/premake5 gmake2
+
+    - name: Build - Debug
+      run: make config=debug
+    - name: Run - Debug
+      run: ./bin/Debug/BasicApp
+
+    - name: Build - Release
+      run: make config=release
+    - name: Run - Release
+      run: ./bin/Release/BasicApp
+
+  win-msvc:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate Project for VS2022
+      run: ./vendor/bin/premake5.exe vs2022
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build - Debug
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION_DEBUG}} ${{env.SOLUTION_FILE_PATH}}
+    - name: Run - Debug
+      run: ./bin/Debug/BasicApp.exe
+
+    - name: Build - Release
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION_RELEASE}} ${{env.SOLUTION_FILE_PATH}}
+    - name: Run - Release
+      run: ./bin/Release/BasicApp.exe

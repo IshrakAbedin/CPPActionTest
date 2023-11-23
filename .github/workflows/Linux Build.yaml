@@ -9,6 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Grant premake5 permission
+      run: chmod 777./vendor/bin/premake5
     - name: Generate Project for gmake2
       run: ./vendor/bin/premake5 gmake2
     - name: Build - Release

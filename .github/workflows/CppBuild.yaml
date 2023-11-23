@@ -64,8 +64,8 @@ jobs:
     - name: Generate Project for VS2022
       run: ./vendor/bin/premake5.exe vs2022
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
 
     - name: Build - Debug
       working-directory: ${{env.GITHUB_WORKSPACE}}

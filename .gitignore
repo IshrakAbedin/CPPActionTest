@@ -1,0 +1,8 @@
+bin/*
+obj/*
+*.sln
+*.vcxproj*
+.vs/*
+premake/*
+Makefile
+*.make

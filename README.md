@@ -1,0 +1,3 @@
+# A Test for GitHub Actions Multiplatform Compilation with Premake
+
+Test... Test... Test... Test... Test...

@@ -9,14 +9,47 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Grant premake5 permission
       run: chmod 777 ./vendor/bin/premake5
     - name: Generate Project for gmake2
       run: ./vendor/bin/premake5 --cc=clang gmake2
+
     - name: Build - Debug
       run: make config=debug
     - name: Run - Debug
       run: ./bin/Debug/BasicApp
+      
+    - name: Build - Release
+      run: make config=release
+    - name: Run - Release
+      run: ./bin/Release/BasicApp
+
+  linux-gcc:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        gcc: [10]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up GCC ${{ matrix.gcc }}
+      uses: mhorbul/setup-gcc@v1
+      with:
+        gcc-version: ${{ matrix.gcc }}
+
+    - name: Grant premake5 permission
+      run: chmod 777 ./vendor/bin/premake5
+    - name: Generate Project for gmake2
+      run: ./vendor/bin/premake5 gmake2
+
+    - name: Build - Debug
+      run: make config=debug
+    - name: Run - Debug
+      run: ./bin/Debug/BasicApp
+
     - name: Build - Release
       run: make config=release
     - name: Run - Release

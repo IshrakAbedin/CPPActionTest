@@ -1,4 +1,4 @@
-name: Linux Build with Premake 5
+name: C++ Build with Premake 5
 
 on: [push]
 
